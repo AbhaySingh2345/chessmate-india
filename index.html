@@ -1,0 +1,207 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CHECKMATE INDIA | The Home of Indian Chess</title>
+<style>
+:root {
+  --bg:#080e0c;--panel:#111c17;--panel2:#17251e;
+  --line:#293b31;--green:#39d99b;--muted:#94a99b;
+  --gold:#e9c477;--white:#f0f5f1;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--white);
+font-family:Inter,Segoe UI,Arial,sans-serif}
+header{height:76px;padding:0 5%;display:flex;align-items:center;
+justify-content:space-between;border-bottom:1px solid var(--line);
+background:#0b1310;position:sticky;top:0;z-index:10}
+.logo{font-size:20px;font-weight:900;letter-spacing:1.5px}
+.logo span{color:var(--green)}
+nav{display:flex;gap:24px}
+nav a{color:var(--muted);text-decoration:none;font-size:13px}
+nav a:hover{color:var(--green)}
+.live{color:var(--green);font-size:11px;font-weight:bold}
+main{max-width:1250px;margin:auto;padding:35px 24px}
+.hero{display:grid;grid-template-columns:1.15fr .85fr;gap:30px;
+align-items:center;padding:30px 0 45px}
+.tag{color:var(--green);font-size:11px;letter-spacing:3px;font-weight:bold}
+h1{font-size:clamp(42px,6vw,76px);line-height:1.03;
+letter-spacing:-3px;margin:17px 0}
+h1 span{color:var(--green)}
+p{color:var(--muted);line-height:1.7}
+.btn{padding:12px 18px;border-radius:8px;border:1px solid var(--line);
+background:var(--panel2);color:white;cursor:pointer;font-weight:bold}
+.btn.primary{background:var(--green);color:#062017;border-color:var(--green)}
+.btn:hover{filter:brightness(1.12)}
+.actions{display:flex;gap:12px;flex-wrap:wrap;margin-top:25px}
+.boardbox,.card,.stat{background:linear-gradient(145deg,#17251e,#101914);
+border:1px solid var(--line);border-radius:14px;padding:18px}
+.boardhead,.boardfoot{display:flex;justify-content:space-between;
+color:var(--muted);font-size:12px;margin-bottom:12px}
+.board{display:grid;grid-template-columns:repeat(8,1fr);
+aspect-ratio:1;border:4px solid #304b3b}
+.square{display:grid;place-items:center;aspect-ratio:1;
+font-size:clamp(20px,3.5vw,39px);cursor:pointer;user-select:none}
+.light{background:#e0e5d3;color:#19241c}
+.dark{background:#62836a;color:#f9f5e9}
+.square.selected{outline:4px solid var(--gold);outline-offset:-4px}
+.boardfoot{margin:12px 0 0}
+.stats{display:grid;grid-template-columns:repeat(4,1fr);
+gap:13px;margin-bottom:38px}
+.stat small{color:var(--muted)}
+.stat strong{display:block;font-size:25px;margin:6px 0}
+.section{margin:35px 0}
+.heading{display:flex;justify-content:space-between;align-items:center;
+margin-bottom:15px}
+.heading h2{font-size:23px;margin:0}
+.heading span{color:var(--green);font-size:11px}
+.cards{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+.event{display:flex;gap:13px;align-items:center}
+.eventicon{background:#203b2d;color:var(--green);border-radius:10px;
+width:45px;height:45px;display:grid;place-items:center;font-size:23px}
+.event b{display:block}
+.event small{color:var(--muted)}
+.pill{margin-left:auto;color:var(--green);font-size:10px;
+border:1px solid #32674d;border-radius:20px;padding:4px 8px}
+table{width:100%;border-collapse:collapse}
+th,td{text-align:left;padding:15px 10px;border-bottom:1px solid var(--line)}
+th{color:var(--muted);font-size:11px}
+td{font-size:13px}
+.rank{color:var(--gold);font-weight:bold}
+.news{min-height:160px;display:flex;flex-direction:column;
+justify-content:space-between}
+.news small{color:var(--green);letter-spacing:1px}
+.news b{font-size:18px}
+.news p{font-size:13px;margin-bottom:0}
+footer{padding:25px 5%;border-top:1px solid var(--line);
+display:flex;justify-content:space-between;color:var(--muted);font-size:12px}
+#message{color:var(--gold);font-size:12px;margin-top:8px}
+@media(max-width:800px){
+ nav{display:none}.hero{grid-template-columns:1fr}
+ .stats{grid-template-columns:repeat(2,1fr)}
+ .cards{grid-template-columns:1fr}
+ h1{letter-spacing:-1px}
+}
+</style>
+</head>
+<body>
+<header>
+ <div class="logo">♞ CHECKMATE <span>INDIA</span></div>
+ <nav>
+  <a href="#home">Home</a><a href="#tournaments">Tournaments</a>
+  <a href="#players">Players</a><a href="#news">News</a>
+ </nav>
+ <div class="live">● INDIA CHESS HUB</div>
+</header>
+
+<main id="home">
+<section class="hero">
+ <div>
+  <div class="tag">THE HOME OF INDIAN CHESS</div>
+  <h1>Every Move.<br>Every Match.<br><span>Every Moment.</span></h1>
+  <p>One destination for India's chess community.
+  Discover tournaments, follow champions, explore chess stories
+  and celebrate the game.</p>
+  <div class="actions">
+   <button class="btn primary" onclick="go('tournaments')">Explore tournaments ↗</button>
+   <button class="btn" onclick="go('players')">Meet the players</button>
+  </div>
+ </div>
+
+ <div class="boardbox">
+  <div class="boardhead"><b>FEATURED CHESSBOARD</b><span>INTERACTIVE DEMO</span></div>
+  <div class="board" id="board"></div>
+  <div class="boardfoot"><span id="turn">White to move</span><span>Click pieces and squares</span></div>
+  <div id="message">Demo board: moves are not checked for legal chess rules.</div>
+ </div>
+</section>
+
+<section class="stats">
+ <div class="stat"><small>OUR COMMUNITY</small><strong>INDIA ♜</strong><small>One chess nation</small></div>
+ <div class="stat"><small>PLAYER SPOTLIGHT</small><strong>Champions</strong><small>Inspiring generations</small></div>
+ <div class="stat"><small>TOURNAMENTS</small><strong>Discover</strong><small>Events across India</small></div>
+ <div class="stat"><small>OUR MISSION</small><strong>One board</strong><small>Millions of possibilities</small></div>
+</section>
+
+<section class="section" id="tournaments">
+ <div class="heading"><h2>Tournament Radar</h2><span>EVENT PREVIEW</span></div>
+ <div class="cards">
+  <div class="card event"><div class="eventicon">♜</div><div><b>National Championship</b><small>India · Open</small></div><span class="pill">OPEN</span></div>
+  <div class="card event"><div class="eventicon">♞</div><div><b>Junior Chess Circuit</b><small>India · Youth</small></div><span class="pill">YOUTH</span></div>
+  <div class="card event"><div class="eventicon">♛</div><div><b>Rapid & Blitz Series</b><small>Online · Rapid</small></div><span class="pill">RAPID</span></div>
+ </div>
+</section>
+
+<section class="section" id="players">
+ <div class="heading"><h2>Indian Player Spotlight</h2><span>FEATURED PLAYERS</span></div>
+ <div class="card">
+ <table>
+  <thead><tr><th>PLAYER</th><th>TITLE</th><th>HIGHLIGHT</th><th>FEATURE</th></tr></thead>
+  <tbody>
+   <tr><td><span class="rank">01</span> Viswanathan Anand</td><td>Grandmaster</td><td>Five-time world champion</td><td>Legend</td></tr>
+   <tr><td><span class="rank">02</span> D. Gukesh</td><td>Grandmaster</td><td>World champion</td><td>Featured</td></tr>
+   <tr><td><span class="rank">03</span> R. Praggnanandhaa</td><td>Grandmaster</td><td>Elite Indian talent</td><td>Featured</td></tr>
+   <tr><td><span class="rank">04</span> Arjun Erigaisi</td><td>Grandmaster</td><td>Indian chess star</td><td>Featured</td></tr>
+  </tbody>
+ </table>
+ </div>
+</section>
+
+<section class="section" id="news">
+ <div class="heading"><h2>Inside Indian Chess</h2><span>EDITORIAL PREVIEW</span></div>
+ <div class="cards">
+  <div class="card news"><small>FEATURE · 01</small><b>A new generation is carrying Indian chess forward</b><p>Meet the players and stories shaping the game.</p></div>
+  <div class="card news"><small>TOURNAMENTS · 02</small><b>From local competitions to the world stage</b><p>Explore the Indian tournament landscape.</p></div>
+  <div class="card news"><small>LEARN · 03</small><b>Discover the ideas behind brilliant chess</b><p>Guides, analysis and chess culture.</p></div>
+ </div>
+</section>
+</main>
+<footer><b>♞ CHECKMATE INDIA</b><span>Every Move. Every Match. Every Moment.</span></footer>
+
+<script>
+function go(id){document.getElementById(id).scrollIntoView({behavior:'smooth'})}
+const start=[
+ ['♜','♞','♝','♛','♚','♝','♞','♜'],
+ ['♟','♟','♟','♟','♟','♟','♟','♟'],
+ ['','','','','','','',''],
+ ['','','','','','','',''],
+ ['','','','','','','',''],
+ ['','','','','','','',''],
+ ['♙','♙','♙','♙','♙','♙','♙','♙'],
+ ['♖','♘','♗','♕','♔','♗','♘','♖']
+];
+let position=start.map(r=>r.slice()),selected=null,white=true;
+const board=document.getElementById('board');
+function draw(){
+ board.innerHTML='';
+ position.forEach((row,r)=>row.forEach((piece,c)=>{
+  const cell=document.createElement('div');
+  cell.className='square '+((r+c)%2===0?'light':'dark');
+  if(selected&&selected[0]===r&&selected[1]===c)cell.classList.add('selected');
+  cell.textContent=piece;
+  cell.onclick=()=>move(r,c);
+  board.appendChild(cell);
+ }));
+}
+function move(r,c){
+ if(selected){
+  const [sr,sc]=selected;
+  if(sr===r&&sc===c){selected=null;draw();return}
+  if(position[sr][sc]){
+   position[r][c]=position[sr][sc];
+   position[sr][sc]='';
+   selected=null;white=!white;
+   document.getElementById('turn').textContent=white?'White to move':'Black to move';
+   draw();return;
+  }
+ }
+ if(position[r][c])selected=[r,c];
+ draw();
+}
+draw();
+</script>
+</body>
+</html>
